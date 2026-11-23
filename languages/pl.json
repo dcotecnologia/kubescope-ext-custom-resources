@@ -1,0 +1,58 @@
+{
+    "name": "Polski",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "Zasoby niestandardowe",
+            "Definitions": "Definicje",
+            "The custom resource definitions of the cluster": "Definicje zasobów niestandardowych klastra"
+        },
+        "DefinitionsPage": {
+            "Age": "Wiek",
+            "Cluster": "Klaster",
+            "Definitions": "Definicje",
+            "Group": "Grupa",
+            "Kind": "Kind",
+            "Name": "Nazwa",
+            "Namespaced": "Z przestrzenią nazw",
+            "Scope": "Zakres",
+            "Version": "Wersja"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "Usunięto",
+            "Error": "Błąd",
+            "Last sync": "Ostatnia synchronizacja",
+            "Name": "Nazwa",
+            "Reason": "Powód",
+            "Refresh": "Odświeżanie",
+            "Resync": "Synchronizuj ponownie",
+            "Resync All": "Synchronizuj wszystkie ponownie",
+            "Resync asked for {0}; waiting for the operator...": "Zażądano ponownej synchronizacji dla {0}; czekam na operatora...",
+            "Resync the {0} resources shown?": "Zsynchronizować ponownie wyświetlone zasoby ({0})?",
+            "Resync {0} in {1}?": "Zsynchronizować ponownie {0} w {1}?",
+            "Status": "Status",
+            "Store": "Store",
+            "Synced": "Zsynchronizowano",
+            "Turn on the write mode to resync.": "Włącz tryb zapisu, aby zsynchronizować ponownie.",
+            "Unknown": "Nieznany",
+            "never": "nigdy",
+            "{0} of {1} could not be resynced:": "{0} z {1} nie udało się zsynchronizować ponownie:"
+        },
+        "ResourcesPage": {
+            "Age": "Wiek",
+            "Name": "Nazwa"
+        },
+        "TablePage": {
+            "All namespaces": "Wszystkie przestrzenie nazw",
+            "Could not read the resources: {0}": "Nie można odczytać zasobów: {0}",
+            "Data fetched from the cluster API": "Dane pobrane z API klastra",
+            "Details": "Szczegóły",
+            "Namespace": "Przestrzeń nazw",
+            "Search all columns...": "Szukaj we wszystkich kolumnach...",
+            "The cluster does not serve this resource.": "Klaster nie udostępnia tego zasobu.",
+            "{0} of {1} resources": "{0} z {1} zasobów",
+            "{0} resources": "{0} zasobów",
+            "{0} resources in {1} namespaces": "{0} zasobów w {1} przestrzeniach nazw"
+        }
+    }
+}

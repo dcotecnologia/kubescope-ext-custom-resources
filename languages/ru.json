@@ -1,0 +1,58 @@
+{
+    "name": "Русский",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "Пользовательские ресурсы",
+            "Definitions": "Определения",
+            "The custom resource definitions of the cluster": "Определения пользовательских ресурсов кластера"
+        },
+        "DefinitionsPage": {
+            "Age": "Возраст",
+            "Cluster": "Кластер",
+            "Definitions": "Определения",
+            "Group": "Группа",
+            "Kind": "Kind",
+            "Name": "Имя",
+            "Namespaced": "С пространством имён",
+            "Scope": "Область",
+            "Version": "Версия"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "Удалён",
+            "Error": "Ошибка",
+            "Last sync": "Последняя синхронизация",
+            "Name": "Имя",
+            "Reason": "Причина",
+            "Refresh": "Обновление",
+            "Resync": "Пересинхронизировать",
+            "Resync All": "Пересинхронизировать все",
+            "Resync asked for {0}; waiting for the operator...": "Пересинхронизация запрошена для {0}; ожидание оператора...",
+            "Resync the {0} resources shown?": "Пересинхронизировать показанные ресурсы ({0})?",
+            "Resync {0} in {1}?": "Пересинхронизировать {0} в {1}?",
+            "Status": "Статус",
+            "Store": "Store",
+            "Synced": "Синхронизирован",
+            "Turn on the write mode to resync.": "Включите режим записи, чтобы пересинхронизировать.",
+            "Unknown": "Неизвестно",
+            "never": "никогда",
+            "{0} of {1} could not be resynced:": "Не удалось пересинхронизировать {0} из {1}:"
+        },
+        "ResourcesPage": {
+            "Age": "Возраст",
+            "Name": "Имя"
+        },
+        "TablePage": {
+            "All namespaces": "Все пространства имён",
+            "Could not read the resources: {0}": "Не удалось прочитать ресурсы: {0}",
+            "Data fetched from the cluster API": "Данные получены из API кластера",
+            "Details": "Подробности",
+            "Namespace": "Пространство имён",
+            "Search all columns...": "Поиск по всем столбцам...",
+            "The cluster does not serve this resource.": "Кластер не предоставляет этот ресурс.",
+            "{0} of {1} resources": "{0} из {1} ресурсов",
+            "{0} resources": "Ресурсов: {0}",
+            "{0} resources in {1} namespaces": "Ресурсов: {0}, пространств имён: {1}"
+        }
+    }
+}

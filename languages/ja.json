@@ -1,0 +1,58 @@
+{
+    "name": "日本語",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "カスタムリソース",
+            "Definitions": "定義",
+            "The custom resource definitions of the cluster": "クラスターのカスタムリソース定義"
+        },
+        "DefinitionsPage": {
+            "Age": "経過時間",
+            "Cluster": "クラスター",
+            "Definitions": "定義",
+            "Group": "グループ",
+            "Kind": "Kind",
+            "Name": "名前",
+            "Namespaced": "Namespace あり",
+            "Scope": "スコープ",
+            "Version": "バージョン"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "削除済み",
+            "Error": "エラー",
+            "Last sync": "最終同期",
+            "Name": "名前",
+            "Reason": "理由",
+            "Refresh": "更新間隔",
+            "Resync": "再同期",
+            "Resync All": "すべて再同期",
+            "Resync asked for {0}; waiting for the operator...": "{0} 件の再同期を要求しました。operator の処理を待っています...",
+            "Resync the {0} resources shown?": "表示中の {0} 件のリソースを再同期しますか?",
+            "Resync {0} in {1}?": "{1} の {0} を再同期しますか?",
+            "Status": "ステータス",
+            "Store": "Store",
+            "Synced": "同期済み",
+            "Turn on the write mode to resync.": "再同期するには書き込みモードをオンにしてください。",
+            "Unknown": "不明",
+            "never": "なし",
+            "{0} of {1} could not be resynced:": "{1} 件中 {0} 件を再同期できませんでした:"
+        },
+        "ResourcesPage": {
+            "Age": "経過時間",
+            "Name": "名前"
+        },
+        "TablePage": {
+            "All namespaces": "すべての namespace",
+            "Could not read the resources: {0}": "リソースを読み取れませんでした: {0}",
+            "Data fetched from the cluster API": "クラスター API から取得したデータ",
+            "Details": "詳細",
+            "Namespace": "Namespace",
+            "Search all columns...": "すべての列を検索...",
+            "The cluster does not serve this resource.": "このクラスターはこのリソースを提供していません。",
+            "{0} of {1} resources": "{1} 件中 {0} 件のリソース",
+            "{0} resources": "{0} 件のリソース",
+            "{0} resources in {1} namespaces": "{1} 個の namespace に {0} 件のリソース"
+        }
+    }
+}

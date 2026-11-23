@@ -1,0 +1,58 @@
+{
+    "name": "العربية",
+    "rtl": true,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "الموارد المخصصة",
+            "Definitions": "التعريفات",
+            "The custom resource definitions of the cluster": "تعريفات الموارد المخصصة للعنقود"
+        },
+        "DefinitionsPage": {
+            "Age": "العمر",
+            "Cluster": "العنقود",
+            "Definitions": "التعريفات",
+            "Group": "المجموعة",
+            "Kind": "Kind",
+            "Name": "الاسم",
+            "Namespaced": "ضمن namespace",
+            "Scope": "النطاق",
+            "Version": "الإصدار"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "محذوف",
+            "Error": "خطأ",
+            "Last sync": "آخر مزامنة",
+            "Name": "الاسم",
+            "Reason": "السبب",
+            "Refresh": "التحديث",
+            "Resync": "إعادة المزامنة",
+            "Resync All": "إعادة مزامنة الكل",
+            "Resync asked for {0}; waiting for the operator...": "تم طلب إعادة المزامنة لـ {0}؛ بانتظار الـ operator...",
+            "Resync the {0} resources shown?": "هل تريد إعادة مزامنة {0} من الموارد المعروضة؟",
+            "Resync {0} in {1}?": "هل تريد إعادة مزامنة {0} في {1}؟",
+            "Status": "الحالة",
+            "Store": "Store",
+            "Synced": "تمت المزامنة",
+            "Turn on the write mode to resync.": "فعّل وضع الكتابة لإعادة المزامنة.",
+            "Unknown": "غير معروف",
+            "never": "أبدًا",
+            "{0} of {1} could not be resynced:": "تعذّرت إعادة مزامنة {0} من {1}:"
+        },
+        "ResourcesPage": {
+            "Age": "العمر",
+            "Name": "الاسم"
+        },
+        "TablePage": {
+            "All namespaces": "كل الـ namespaces",
+            "Could not read the resources: {0}": "تعذّرت قراءة الموارد: {0}",
+            "Data fetched from the cluster API": "بيانات مجلوبة من واجهة API للعنقود",
+            "Details": "التفاصيل",
+            "Namespace": "Namespace",
+            "Search all columns...": "البحث في كل الأعمدة...",
+            "The cluster does not serve this resource.": "العنقود لا يقدّم هذا المورد.",
+            "{0} of {1} resources": "{0} من {1} مورد",
+            "{0} resources": "{0} مورد",
+            "{0} resources in {1} namespaces": "{0} مورد في {1} namespaces"
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "name": "Українська",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "Користувацькі ресурси",
+            "Definitions": "Визначення",
+            "The custom resource definitions of the cluster": "Визначення користувацьких ресурсів кластера"
+        },
+        "DefinitionsPage": {
+            "Age": "Вік",
+            "Cluster": "Кластер",
+            "Definitions": "Визначення",
+            "Group": "Група",
+            "Kind": "Kind",
+            "Name": "Назва",
+            "Namespaced": "З простором імен",
+            "Scope": "Область",
+            "Version": "Версія"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "Видалено",
+            "Error": "Помилка",
+            "Last sync": "Остання синхронізація",
+            "Name": "Назва",
+            "Reason": "Причина",
+            "Refresh": "Оновлення",
+            "Resync": "Пересинхронізувати",
+            "Resync All": "Пересинхронізувати все",
+            "Resync asked for {0}; waiting for the operator...": "Пересинхронізацію запрошено для {0}; очікування оператора...",
+            "Resync the {0} resources shown?": "Пересинхронізувати показані ресурси ({0})?",
+            "Resync {0} in {1}?": "Пересинхронізувати {0} у {1}?",
+            "Status": "Статус",
+            "Store": "Store",
+            "Synced": "Синхронізовано",
+            "Turn on the write mode to resync.": "Увімкніть режим запису, щоб пересинхронізувати.",
+            "Unknown": "Невідомо",
+            "never": "ніколи",
+            "{0} of {1} could not be resynced:": "Не вдалося пересинхронізувати {0} із {1}:"
+        },
+        "ResourcesPage": {
+            "Age": "Вік",
+            "Name": "Назва"
+        },
+        "TablePage": {
+            "All namespaces": "Усі простори імен",
+            "Could not read the resources: {0}": "Не вдалося прочитати ресурси: {0}",
+            "Data fetched from the cluster API": "Дані отримано з API кластера",
+            "Details": "Подробиці",
+            "Namespace": "Простір імен",
+            "Search all columns...": "Пошук по всіх стовпцях...",
+            "The cluster does not serve this resource.": "Кластер не надає цей ресурс.",
+            "{0} of {1} resources": "{0} із {1} ресурсів",
+            "{0} resources": "Ресурсів: {0}",
+            "{0} resources in {1} namespaces": "Ресурсів: {0}, просторів імен: {1}"
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "name": "हिन्दी",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "कस्टम संसाधन",
+            "Definitions": "परिभाषाएँ",
+            "The custom resource definitions of the cluster": "क्लस्टर के कस्टम संसाधनों की परिभाषाएँ"
+        },
+        "DefinitionsPage": {
+            "Age": "आयु",
+            "Cluster": "क्लस्टर",
+            "Definitions": "परिभाषाएँ",
+            "Group": "समूह",
+            "Kind": "Kind",
+            "Name": "नाम",
+            "Namespaced": "नेमस्पेस वाला",
+            "Scope": "दायरा",
+            "Version": "संस्करण"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "हटाया गया",
+            "Error": "त्रुटि",
+            "Last sync": "अंतिम सिंक",
+            "Name": "नाम",
+            "Reason": "कारण",
+            "Refresh": "रीफ़्रेश",
+            "Resync": "फिर से सिंक करें",
+            "Resync All": "सभी फिर से सिंक करें",
+            "Resync asked for {0}; waiting for the operator...": "{0} के लिए फिर से सिंक का अनुरोध किया गया; operator की प्रतीक्षा है...",
+            "Resync the {0} resources shown?": "दिखाए गए {0} संसाधनों को फिर से सिंक करें?",
+            "Resync {0} in {1}?": "{1} में {0} को फिर से सिंक करें?",
+            "Status": "स्थिति",
+            "Store": "Store",
+            "Synced": "सिंक हुआ",
+            "Turn on the write mode to resync.": "फिर से सिंक करने के लिए राइट मोड चालू करें।",
+            "Unknown": "अज्ञात",
+            "never": "कभी नहीं",
+            "{0} of {1} could not be resynced:": "{1} में से {0} फिर से सिंक नहीं हो सके:"
+        },
+        "ResourcesPage": {
+            "Age": "आयु",
+            "Name": "नाम"
+        },
+        "TablePage": {
+            "All namespaces": "सभी नेमस्पेस",
+            "Could not read the resources: {0}": "संसाधन पढ़े नहीं जा सके: {0}",
+            "Data fetched from the cluster API": "क्लस्टर API से प्राप्त डेटा",
+            "Details": "विवरण",
+            "Namespace": "नेमस्पेस",
+            "Search all columns...": "सभी कॉलम में खोजें...",
+            "The cluster does not serve this resource.": "क्लस्टर यह संसाधन उपलब्ध नहीं कराता।",
+            "{0} of {1} resources": "{1} में से {0} संसाधन",
+            "{0} resources": "{0} संसाधन",
+            "{0} resources in {1} namespaces": "{1} नेमस्पेस में {0} संसाधन"
+        }
+    }
+}

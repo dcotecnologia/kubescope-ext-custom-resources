@@ -1,0 +1,58 @@
+{
+    "name": "Italiano",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "Risorse personalizzate",
+            "Definitions": "Definizioni",
+            "The custom resource definitions of the cluster": "Le definizioni delle risorse personalizzate del cluster"
+        },
+        "DefinitionsPage": {
+            "Age": "Età",
+            "Cluster": "Cluster",
+            "Definitions": "Definizioni",
+            "Group": "Gruppo",
+            "Kind": "Kind",
+            "Name": "Nome",
+            "Namespaced": "Con namespace",
+            "Scope": "Ambito",
+            "Version": "Versione"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "Eliminato",
+            "Error": "Errore",
+            "Last sync": "Ultima sincronizzazione",
+            "Name": "Nome",
+            "Reason": "Motivo",
+            "Refresh": "Aggiornamento",
+            "Resync": "Risincronizza",
+            "Resync All": "Risincronizza tutti",
+            "Resync asked for {0}; waiting for the operator...": "Risincronizzazione richiesta per {0}; in attesa dell'operator...",
+            "Resync the {0} resources shown?": "Risincronizzare le {0} risorse mostrate?",
+            "Resync {0} in {1}?": "Risincronizzare {0} in {1}?",
+            "Status": "Stato",
+            "Store": "Store",
+            "Synced": "Sincronizzato",
+            "Turn on the write mode to resync.": "Attiva la modalità scrittura per risincronizzare.",
+            "Unknown": "Sconosciuto",
+            "never": "mai",
+            "{0} of {1} could not be resynced:": "{0} su {1} non sono stati risincronizzati:"
+        },
+        "ResourcesPage": {
+            "Age": "Età",
+            "Name": "Nome"
+        },
+        "TablePage": {
+            "All namespaces": "Tutti i namespace",
+            "Could not read the resources: {0}": "Impossibile leggere le risorse: {0}",
+            "Data fetched from the cluster API": "Dati letti dall'API del cluster",
+            "Details": "Dettagli",
+            "Namespace": "Namespace",
+            "Search all columns...": "Cerca in tutte le colonne...",
+            "The cluster does not serve this resource.": "Il cluster non serve questa risorsa.",
+            "{0} of {1} resources": "{0} di {1} risorse",
+            "{0} resources": "{0} risorse",
+            "{0} resources in {1} namespaces": "{0} risorse in {1} namespace"
+        }
+    }
+}

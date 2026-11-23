@@ -1,0 +1,58 @@
+{
+    "name": "עברית",
+    "rtl": true,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "משאבים מותאמים אישית",
+            "Definitions": "הגדרות",
+            "The custom resource definitions of the cluster": "הגדרות המשאבים המותאמים אישית של האשכול"
+        },
+        "DefinitionsPage": {
+            "Age": "גיל",
+            "Cluster": "אשכול",
+            "Definitions": "הגדרות",
+            "Group": "קבוצה",
+            "Kind": "Kind",
+            "Name": "שם",
+            "Namespaced": "עם namespace",
+            "Scope": "היקף",
+            "Version": "גרסה"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "נמחק",
+            "Error": "שגיאה",
+            "Last sync": "סנכרון אחרון",
+            "Name": "שם",
+            "Reason": "סיבה",
+            "Refresh": "רענון",
+            "Resync": "סנכרון מחדש",
+            "Resync All": "סנכרון מחדש של הכול",
+            "Resync asked for {0}; waiting for the operator...": "התבקש סנכרון מחדש עבור {0}; ממתין ל-operator...",
+            "Resync the {0} resources shown?": "לסנכרן מחדש את {0} המשאבים המוצגים?",
+            "Resync {0} in {1}?": "לסנכרן מחדש את {0} ב-{1}?",
+            "Status": "סטטוס",
+            "Store": "Store",
+            "Synced": "מסונכרן",
+            "Turn on the write mode to resync.": "הפעל את מצב הכתיבה כדי לסנכרן מחדש.",
+            "Unknown": "לא ידוע",
+            "never": "אף פעם",
+            "{0} of {1} could not be resynced:": "לא ניתן היה לסנכרן מחדש {0} מתוך {1}:"
+        },
+        "ResourcesPage": {
+            "Age": "גיל",
+            "Name": "שם"
+        },
+        "TablePage": {
+            "All namespaces": "כל ה-namespaces",
+            "Could not read the resources: {0}": "לא ניתן לקרוא את המשאבים: {0}",
+            "Data fetched from the cluster API": "נתונים שנשלפו מ-API של האשכול",
+            "Details": "פרטים",
+            "Namespace": "Namespace",
+            "Search all columns...": "חיפוש בכל העמודות...",
+            "The cluster does not serve this resource.": "האשכול אינו מספק משאב זה.",
+            "{0} of {1} resources": "{0} מתוך {1} משאבים",
+            "{0} resources": "{0} משאבים",
+            "{0} resources in {1} namespaces": "{0} משאבים ב-{1} namespaces"
+        }
+    }
+}

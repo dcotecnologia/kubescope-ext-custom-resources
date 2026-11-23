@@ -1,0 +1,58 @@
+{
+    "name": "ไทย",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "ทรัพยากรแบบกำหนดเอง",
+            "Definitions": "คำนิยาม",
+            "The custom resource definitions of the cluster": "คำนิยามทรัพยากรแบบกำหนดเองของคลัสเตอร์"
+        },
+        "DefinitionsPage": {
+            "Age": "อายุ",
+            "Cluster": "คลัสเตอร์",
+            "Definitions": "คำนิยาม",
+            "Group": "กลุ่ม",
+            "Kind": "Kind",
+            "Name": "ชื่อ",
+            "Namespaced": "มีเนมสเปซ",
+            "Scope": "ขอบเขต",
+            "Version": "เวอร์ชัน"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "ลบแล้ว",
+            "Error": "ข้อผิดพลาด",
+            "Last sync": "ซิงก์ล่าสุด",
+            "Name": "ชื่อ",
+            "Reason": "เหตุผล",
+            "Refresh": "รีเฟรช",
+            "Resync": "ซิงก์ใหม่",
+            "Resync All": "ซิงก์ใหม่ทั้งหมด",
+            "Resync asked for {0}; waiting for the operator...": "ขอซิงก์ใหม่สำหรับ {0} รายการ; กำลังรอ operator...",
+            "Resync the {0} resources shown?": "ซิงก์ใหม่ทรัพยากรที่แสดง {0} รายการหรือไม่?",
+            "Resync {0} in {1}?": "ซิงก์ใหม่ {0} ใน {1} หรือไม่?",
+            "Status": "สถานะ",
+            "Store": "Store",
+            "Synced": "ซิงก์แล้ว",
+            "Turn on the write mode to resync.": "เปิดโหมดเขียนเพื่อซิงก์ใหม่",
+            "Unknown": "ไม่ทราบ",
+            "never": "ไม่เคย",
+            "{0} of {1} could not be resynced:": "ซิงก์ใหม่ไม่ได้ {0} จาก {1}:"
+        },
+        "ResourcesPage": {
+            "Age": "อายุ",
+            "Name": "ชื่อ"
+        },
+        "TablePage": {
+            "All namespaces": "เนมสเปซทั้งหมด",
+            "Could not read the resources: {0}": "อ่านทรัพยากรไม่ได้: {0}",
+            "Data fetched from the cluster API": "ข้อมูลที่ดึงจาก API ของคลัสเตอร์",
+            "Details": "รายละเอียด",
+            "Namespace": "เนมสเปซ",
+            "Search all columns...": "ค้นหาในทุกคอลัมน์...",
+            "The cluster does not serve this resource.": "คลัสเตอร์ไม่ให้บริการทรัพยากรนี้",
+            "{0} of {1} resources": "{0} จาก {1} ทรัพยากร",
+            "{0} resources": "{0} ทรัพยากร",
+            "{0} resources in {1} namespaces": "{0} ทรัพยากรใน {1} เนมสเปซ"
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "name": "Türkçe",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "Özel Kaynaklar",
+            "Definitions": "Tanımlar",
+            "The custom resource definitions of the cluster": "Kümenin özel kaynak tanımları"
+        },
+        "DefinitionsPage": {
+            "Age": "Yaş",
+            "Cluster": "Küme",
+            "Definitions": "Tanımlar",
+            "Group": "Grup",
+            "Kind": "Kind",
+            "Name": "Ad",
+            "Namespaced": "Namespace'li",
+            "Scope": "Kapsam",
+            "Version": "Sürüm"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "Silindi",
+            "Error": "Hata",
+            "Last sync": "Son eşitleme",
+            "Name": "Ad",
+            "Reason": "Neden",
+            "Refresh": "Yenileme",
+            "Resync": "Yeniden eşitle",
+            "Resync All": "Tümünü yeniden eşitle",
+            "Resync asked for {0}; waiting for the operator...": "{0} için yeniden eşitleme istendi; operator bekleniyor...",
+            "Resync the {0} resources shown?": "Gösterilen {0} kaynak yeniden eşitlensin mi?",
+            "Resync {0} in {1}?": "{1} içindeki {0} yeniden eşitlensin mi?",
+            "Status": "Durum",
+            "Store": "Store",
+            "Synced": "Eşitlendi",
+            "Turn on the write mode to resync.": "Yeniden eşitlemek için yazma modunu açın.",
+            "Unknown": "Bilinmiyor",
+            "never": "hiç",
+            "{0} of {1} could not be resynced:": "{1} içinden {0} yeniden eşitlenemedi:"
+        },
+        "ResourcesPage": {
+            "Age": "Yaş",
+            "Name": "Ad"
+        },
+        "TablePage": {
+            "All namespaces": "Tüm namespace'ler",
+            "Could not read the resources: {0}": "Kaynaklar okunamadı: {0}",
+            "Data fetched from the cluster API": "Veriler küme API'sinden alındı",
+            "Details": "Ayrıntılar",
+            "Namespace": "Namespace",
+            "Search all columns...": "Tüm sütunlarda ara...",
+            "The cluster does not serve this resource.": "Küme bu kaynağı sunmuyor.",
+            "{0} of {1} resources": "{0} / {1} kaynak",
+            "{0} resources": "{0} kaynak",
+            "{0} resources in {1} namespaces": "{1} namespace'te {0} kaynak"
+        }
+    }
+}

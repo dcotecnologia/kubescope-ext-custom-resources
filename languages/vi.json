@@ -1,0 +1,58 @@
+{
+    "name": "Tiếng Việt",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "Tài nguyên tùy chỉnh",
+            "Definitions": "Định nghĩa",
+            "The custom resource definitions of the cluster": "Các định nghĩa tài nguyên tùy chỉnh của cluster"
+        },
+        "DefinitionsPage": {
+            "Age": "Tuổi",
+            "Cluster": "Cluster",
+            "Definitions": "Định nghĩa",
+            "Group": "Nhóm",
+            "Kind": "Kind",
+            "Name": "Tên",
+            "Namespaced": "Có namespace",
+            "Scope": "Phạm vi",
+            "Version": "Phiên bản"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "Đã xóa",
+            "Error": "Lỗi",
+            "Last sync": "Lần đồng bộ cuối",
+            "Name": "Tên",
+            "Reason": "Lý do",
+            "Refresh": "Làm mới",
+            "Resync": "Đồng bộ lại",
+            "Resync All": "Đồng bộ lại tất cả",
+            "Resync asked for {0}; waiting for the operator...": "Đã yêu cầu đồng bộ lại {0}; đang chờ operator...",
+            "Resync the {0} resources shown?": "Đồng bộ lại {0} tài nguyên đang hiển thị?",
+            "Resync {0} in {1}?": "Đồng bộ lại {0} trong {1}?",
+            "Status": "Trạng thái",
+            "Store": "Store",
+            "Synced": "Đã đồng bộ",
+            "Turn on the write mode to resync.": "Bật chế độ ghi để đồng bộ lại.",
+            "Unknown": "Không rõ",
+            "never": "chưa bao giờ",
+            "{0} of {1} could not be resynced:": "{0} trên {1} không thể đồng bộ lại:"
+        },
+        "ResourcesPage": {
+            "Age": "Tuổi",
+            "Name": "Tên"
+        },
+        "TablePage": {
+            "All namespaces": "Tất cả namespace",
+            "Could not read the resources: {0}": "Không thể đọc tài nguyên: {0}",
+            "Data fetched from the cluster API": "Dữ liệu lấy từ API của cluster",
+            "Details": "Chi tiết",
+            "Namespace": "Namespace",
+            "Search all columns...": "Tìm trong tất cả các cột...",
+            "The cluster does not serve this resource.": "Cluster không cung cấp tài nguyên này.",
+            "{0} of {1} resources": "{0} / {1} tài nguyên",
+            "{0} resources": "{0} tài nguyên",
+            "{0} resources in {1} namespaces": "{0} tài nguyên trong {1} namespace"
+        }
+    }
+}

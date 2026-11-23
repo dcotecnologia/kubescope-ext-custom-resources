@@ -1,0 +1,58 @@
+{
+    "name": "Bahasa Indonesia",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "Sumber Daya Kustom",
+            "Definitions": "Definisi",
+            "The custom resource definitions of the cluster": "Definisi sumber daya kustom dari cluster"
+        },
+        "DefinitionsPage": {
+            "Age": "Usia",
+            "Cluster": "Cluster",
+            "Definitions": "Definisi",
+            "Group": "Grup",
+            "Kind": "Kind",
+            "Name": "Nama",
+            "Namespaced": "Dengan namespace",
+            "Scope": "Cakupan",
+            "Version": "Versi"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "Dihapus",
+            "Error": "Kesalahan",
+            "Last sync": "Sinkronisasi terakhir",
+            "Name": "Nama",
+            "Reason": "Alasan",
+            "Refresh": "Penyegaran",
+            "Resync": "Sinkronkan ulang",
+            "Resync All": "Sinkronkan ulang semua",
+            "Resync asked for {0}; waiting for the operator...": "Sinkronisasi ulang diminta untuk {0}; menunggu operator...",
+            "Resync the {0} resources shown?": "Sinkronkan ulang {0} sumber daya yang ditampilkan?",
+            "Resync {0} in {1}?": "Sinkronkan ulang {0} di {1}?",
+            "Status": "Status",
+            "Store": "Store",
+            "Synced": "Tersinkron",
+            "Turn on the write mode to resync.": "Aktifkan mode tulis untuk menyinkronkan ulang.",
+            "Unknown": "Tidak diketahui",
+            "never": "tidak pernah",
+            "{0} of {1} could not be resynced:": "{0} dari {1} tidak dapat disinkronkan ulang:"
+        },
+        "ResourcesPage": {
+            "Age": "Usia",
+            "Name": "Nama"
+        },
+        "TablePage": {
+            "All namespaces": "Semua namespace",
+            "Could not read the resources: {0}": "Tidak dapat membaca sumber daya: {0}",
+            "Data fetched from the cluster API": "Data diambil dari API cluster",
+            "Details": "Detail",
+            "Namespace": "Namespace",
+            "Search all columns...": "Cari di semua kolom...",
+            "The cluster does not serve this resource.": "Cluster tidak menyediakan sumber daya ini.",
+            "{0} of {1} resources": "{0} dari {1} sumber daya",
+            "{0} resources": "{0} sumber daya",
+            "{0} resources in {1} namespaces": "{0} sumber daya di {1} namespace"
+        }
+    }
+}

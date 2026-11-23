@@ -1,0 +1,58 @@
+{
+    "name": "فارسی",
+    "rtl": true,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "منابع سفارشی",
+            "Definitions": "تعریف‌ها",
+            "The custom resource definitions of the cluster": "تعریف منابع سفارشی خوشه"
+        },
+        "DefinitionsPage": {
+            "Age": "سن",
+            "Cluster": "خوشه",
+            "Definitions": "تعریف‌ها",
+            "Group": "گروه",
+            "Kind": "Kind",
+            "Name": "نام",
+            "Namespaced": "دارای namespace",
+            "Scope": "دامنه",
+            "Version": "نسخه"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "حذف شد",
+            "Error": "خطا",
+            "Last sync": "آخرین همگام‌سازی",
+            "Name": "نام",
+            "Reason": "دلیل",
+            "Refresh": "تازه‌سازی",
+            "Resync": "همگام‌سازی دوباره",
+            "Resync All": "همگام‌سازی دوباره همه",
+            "Resync asked for {0}; waiting for the operator...": "همگام‌سازی دوباره برای {0} درخواست شد؛ در انتظار operator...",
+            "Resync the {0} resources shown?": "{0} منبع نمایش‌داده‌شده دوباره همگام شوند؟",
+            "Resync {0} in {1}?": "{0} در {1} دوباره همگام شود؟",
+            "Status": "وضعیت",
+            "Store": "Store",
+            "Synced": "همگام شد",
+            "Turn on the write mode to resync.": "برای همگام‌سازی دوباره، حالت نوشتن را روشن کنید.",
+            "Unknown": "نامشخص",
+            "never": "هرگز",
+            "{0} of {1} could not be resynced:": "{0} از {1} دوباره همگام نشد:"
+        },
+        "ResourcesPage": {
+            "Age": "سن",
+            "Name": "نام"
+        },
+        "TablePage": {
+            "All namespaces": "همه namespaceها",
+            "Could not read the resources: {0}": "خواندن منابع ممکن نشد: {0}",
+            "Data fetched from the cluster API": "داده‌های دریافت‌شده از API خوشه",
+            "Details": "جزئیات",
+            "Namespace": "Namespace",
+            "Search all columns...": "جستجو در همه ستون‌ها...",
+            "The cluster does not serve this resource.": "خوشه این منبع را ارائه نمی‌دهد.",
+            "{0} of {1} resources": "{0} از {1} منبع",
+            "{0} resources": "{0} منبع",
+            "{0} resources in {1} namespaces": "{0} منبع در {1} namespace"
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "name": "Nederlands",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "Aangepaste resources",
+            "Definitions": "Definities",
+            "The custom resource definitions of the cluster": "De definities van aangepaste resources van het cluster"
+        },
+        "DefinitionsPage": {
+            "Age": "Leeftijd",
+            "Cluster": "Cluster",
+            "Definitions": "Definities",
+            "Group": "Groep",
+            "Kind": "Kind",
+            "Name": "Naam",
+            "Namespaced": "Met namespace",
+            "Scope": "Bereik",
+            "Version": "Versie"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "Verwijderd",
+            "Error": "Fout",
+            "Last sync": "Laatste synchronisatie",
+            "Name": "Naam",
+            "Reason": "Reden",
+            "Refresh": "Vernieuwing",
+            "Resync": "Opnieuw synchroniseren",
+            "Resync All": "Alles opnieuw synchroniseren",
+            "Resync asked for {0}; waiting for the operator...": "Opnieuw synchroniseren gevraagd voor {0}; wachten op de operator...",
+            "Resync the {0} resources shown?": "De {0} getoonde resources opnieuw synchroniseren?",
+            "Resync {0} in {1}?": "{0} in {1} opnieuw synchroniseren?",
+            "Status": "Status",
+            "Store": "Store",
+            "Synced": "Gesynchroniseerd",
+            "Turn on the write mode to resync.": "Zet de schrijfmodus aan om opnieuw te synchroniseren.",
+            "Unknown": "Onbekend",
+            "never": "nooit",
+            "{0} of {1} could not be resynced:": "{0} van {1} konden niet opnieuw worden gesynchroniseerd:"
+        },
+        "ResourcesPage": {
+            "Age": "Leeftijd",
+            "Name": "Naam"
+        },
+        "TablePage": {
+            "All namespaces": "Alle namespaces",
+            "Could not read the resources: {0}": "De resources konden niet worden gelezen: {0}",
+            "Data fetched from the cluster API": "Gegevens opgehaald uit de cluster-API",
+            "Details": "Details",
+            "Namespace": "Namespace",
+            "Search all columns...": "Zoeken in alle kolommen...",
+            "The cluster does not serve this resource.": "Het cluster biedt deze resource niet aan.",
+            "{0} of {1} resources": "{0} van {1} resources",
+            "{0} resources": "{0} resources",
+            "{0} resources in {1} namespaces": "{0} resources in {1} namespaces"
+        }
+    }
+}

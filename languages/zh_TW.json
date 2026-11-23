@@ -1,0 +1,58 @@
+{
+    "name": "繁體中文",
+    "rtl": false,
+    "strings": {
+        "CustomResourcesExtension": {
+            "Custom Resources": "自訂資源",
+            "Definitions": "定義",
+            "The custom resource definitions of the cluster": "叢集的自訂資源定義"
+        },
+        "DefinitionsPage": {
+            "Age": "存在時間",
+            "Cluster": "叢集",
+            "Definitions": "定義",
+            "Group": "群組",
+            "Kind": "Kind",
+            "Name": "名稱",
+            "Namespaced": "命名空間級",
+            "Scope": "範圍",
+            "Version": "版本"
+        },
+        "ExternalSecretsPage": {
+            "Deleted": "已刪除",
+            "Error": "錯誤",
+            "Last sync": "上次同步",
+            "Name": "名稱",
+            "Reason": "原因",
+            "Refresh": "重新整理間隔",
+            "Resync": "重新同步",
+            "Resync All": "全部重新同步",
+            "Resync asked for {0}; waiting for the operator...": "已請求重新同步 {0} 個;正在等待 operator...",
+            "Resync the {0} resources shown?": "重新同步顯示的 {0} 個資源?",
+            "Resync {0} in {1}?": "重新同步 {1} 中的 {0}?",
+            "Status": "狀態",
+            "Store": "Store",
+            "Synced": "已同步",
+            "Turn on the write mode to resync.": "請開啟寫入模式後再重新同步。",
+            "Unknown": "未知",
+            "never": "從未",
+            "{0} of {1} could not be resynced:": "{1} 個中有 {0} 個無法重新同步:"
+        },
+        "ResourcesPage": {
+            "Age": "存在時間",
+            "Name": "名稱"
+        },
+        "TablePage": {
+            "All namespaces": "所有命名空間",
+            "Could not read the resources: {0}": "無法讀取資源:{0}",
+            "Data fetched from the cluster API": "資料來自叢集 API",
+            "Details": "詳細資料",
+            "Namespace": "命名空間",
+            "Search all columns...": "在所有欄位中搜尋...",
+            "The cluster does not serve this resource.": "叢集未提供此資源。",
+            "{0} of {1} resources": "{0} / {1} 個資源",
+            "{0} resources": "{0} 個資源",
+            "{0} resources in {1} namespaces": "{1} 個命名空間中的 {0} 個資源"
+        }
+    }
+}
