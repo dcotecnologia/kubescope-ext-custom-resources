@@ -12,6 +12,7 @@ from typing import Any
 
 from kubescope.sdk import CONTEXT_CHANGED, Context
 from kubescope.sdk.errors import first_line
+from kubescope.sdk.models import natural_key
 from PySide6.QtCore import QCoreApplication, QPoint, Qt, QTimer
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
@@ -70,6 +71,7 @@ class TablePage(QWidget):
         self.rows: list[Row] = []
         self.shown_rows: list[Row] = []
         self.loading = False
+        self.sort: tuple[int, Qt.SortOrder] | None = None  # the header clicked
         self.error = ""
         self.info = (
             ""  # a note that is not an error, while the page waits for something
@@ -106,6 +108,8 @@ class TablePage(QWidget):
         self.table.setShowGrid(False)  # the rows draw their own divider
         header = self.table.horizontalHeader()
         header.setStretchLastSection(True)
+        header.setSectionsClickable(True)
+        header.sectionClicked.connect(self.sort_by)
         header.setDefaultAlignment(
             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter
         )
@@ -251,12 +255,36 @@ class TablePage(QWidget):
     def visible(self) -> list[Row]:
         chosen = self.namespaces.currentData()
         needle = self.search.text().strip().casefold()
-        return [
+        rows = [
             row
             for row in self.rows
             if (not chosen or row.namespace == chosen)
             and (not needle or any(needle in text.casefold() for text in row.cells))
         ]
+        if self.sort is not None:
+            column, order = self.sort
+            rows.sort(
+                key=lambda row: natural_key(
+                    row.cells[column] if column < len(row.cells) else ""
+                ),
+                reverse=order == Qt.SortOrder.DescendingOrder,
+            )
+        return rows
+
+    def sort_by(self, column: int) -> None:
+        """A click on a header: sort by that column, and again to reverse."""
+        if self.sort is not None and self.sort[0] == column:
+            flipped = self.sort[1] == Qt.SortOrder.AscendingOrder
+            order = (
+                Qt.SortOrder.DescendingOrder if flipped else Qt.SortOrder.AscendingOrder
+            )
+        else:
+            order = Qt.SortOrder.AscendingOrder
+        self.sort = (column, order)
+        header = self.table.horizontalHeader()
+        header.setSortIndicatorShown(True)
+        header.setSortIndicator(column, order)
+        self.show_rows()
 
     def selected(self) -> Row | None:
         rows = self.table.selectionModel().selectedRows()

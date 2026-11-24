@@ -263,3 +263,30 @@ def test_the_menu_is_opened_where_it_was_asked(ctx) -> None:
     page.open_menu(cast(QMenu, Menu()), QPoint(3, 4))
 
     assert seen == [QPoint(3, 4)]
+
+
+def test_a_click_on_a_header_sorts_the_list_and_a_second_one_reverses_it(ctx) -> None:
+    page = Page(ctx, [row("b"), row("a"), row("c")])
+    page.shown()
+    assert names(page) == ["b", "a", "c"]
+
+    page.sort_by(1)
+    assert names(page) == ["a", "b", "c"]
+    assert page.table.horizontalHeader().sortIndicatorSection() == 1  # type: ignore[union-attr]
+
+    page.sort_by(1)
+    assert names(page) == ["c", "b", "a"]
+
+    page.sort_by(2)  # the same phase everywhere: the order it was read in
+    assert names(page) == ["b", "a", "c"]
+
+    page.sort_by(1)
+    page.loaded([row("z"), row("y")])  # read again: the sort stays
+    assert names(page) == ["y", "z"]
+
+
+def test_a_cell_the_row_does_not_have_sorts_as_empty(ctx) -> None:
+    page = Page(ctx, [Row("ns", "short", ("ns",)), row("a")])
+    page.shown()
+    page.sort_by(2)
+    assert [shown.name for shown in page.shown_rows] == ["a", "short"]
