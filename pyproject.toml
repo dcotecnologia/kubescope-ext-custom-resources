@@ -21,7 +21,7 @@ build-backend = "setuptools.build_meta"
 dev = [
     # only the tests need the app: they run her in its window and lend her its
     # real services
-    "kubescope>=2.5.0",
+    "kubescope>=2.6.1",
     "pre-commit>=4.7.0",
     "pytest>=9.2.0",
     "pytest-cov>=7.1.0",
