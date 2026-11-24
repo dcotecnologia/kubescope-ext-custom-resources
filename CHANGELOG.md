@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- A click on the header of a list sorts it, and a second one reverses it, by what the cells mean (ages, numbers, versions), as the lists of the app do; it needs the SDK 1.8 by @danilogco
+
 ## [1.0.0] - 2026-11-23
 
 ### Added
