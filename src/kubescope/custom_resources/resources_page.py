@@ -4,8 +4,7 @@ definitions themselves."""
 from collections.abc import Callable
 from typing import Any
 
-from kubescope.sdk import Context
-from PySide6.QtCore import QCoreApplication
+from kubescope.sdk import Context, translate
 
 from kubescope.custom_resources import reader
 from kubescope.custom_resources.crd import (
@@ -23,9 +22,9 @@ class ResourcesPage(TablePage):
     def __init__(self, ctx: Context, definition: Definition) -> None:
         self.definition = definition
         headers = [
-            QCoreApplication.translate("ResourcesPage", "Name"),
+            translate("ResourcesPage", "Name"),
             *(column.title for column in definition.columns),
-            QCoreApplication.translate("ResourcesPage", "Age"),
+            translate("ResourcesPage", "Age"),
         ]
         widths = [
             320,
@@ -70,18 +69,18 @@ class DefinitionsPage(TablePage):
         on_loaded: Callable[[list[Definition]], None],
     ) -> None:
         headers = [
-            QCoreApplication.translate("DefinitionsPage", "Name"),
-            QCoreApplication.translate("DefinitionsPage", "Group"),
-            QCoreApplication.translate("DefinitionsPage", "Kind"),
-            QCoreApplication.translate("DefinitionsPage", "Scope"),
-            QCoreApplication.translate("DefinitionsPage", "Version"),
-            QCoreApplication.translate("DefinitionsPage", "Age"),
+            translate("DefinitionsPage", "Name"),
+            translate("DefinitionsPage", "Group"),
+            translate("DefinitionsPage", "Kind"),
+            translate("DefinitionsPage", "Scope"),
+            translate("DefinitionsPage", "Version"),
+            translate("DefinitionsPage", "Age"),
         ]
         super().__init__(
             ctx,
             headers,
             [340, 220, 180, 110, 90],
-            QCoreApplication.translate("DefinitionsPage", "Definitions"),
+            translate("DefinitionsPage", "Definitions"),
             namespaced=False,
         )
         self.on_loaded = on_loaded
@@ -97,7 +96,9 @@ class DefinitionsPage(TablePage):
         rows = []
         for definition in parse_definitions(document):
             scope = (
-                self.tr("Namespaced") if definition.namespaced else self.tr("Cluster")
+                translate("DefinitionsPage", "Namespaced")
+                if definition.namespaced
+                else translate("DefinitionsPage", "Cluster")
             )
             rows.append(
                 Row(

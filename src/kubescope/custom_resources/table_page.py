@@ -10,30 +10,12 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
-from kubescope.sdk import CONTEXT_CHANGED, Context
+from kubescope.sdk import CONTEXT_CHANGED, Components, Context, translate
 from kubescope.sdk.errors import first_line
 from kubescope.sdk.models import natural_key
-from PySide6.QtCore import QCoreApplication, QPoint, Qt, QTimer
-from PySide6.QtGui import QColor
-from PySide6.QtWidgets import (
-    QAbstractItemView,
-    QComboBox,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QMenu,
-    QPushButton,
-    QTableWidget,
-    QTableWidgetItem,
-    QVBoxLayout,
-    QWidget,
-)
-
-from kubescope.custom_resources.badge import BADGE_ROLE, BadgeDelegate
 
 POLL_SECONDS = 30  # how often the page looks again while it is shown
 ALL = ""  # the filter that shows every namespace
-TEXT_COLOR = "#242a33"
 ROW_HEIGHT = 46  # as the rows of the Pods
 
 
@@ -55,7 +37,7 @@ class Row:
         return (self.namespace, self.name)
 
 
-class TablePage(QWidget):
+class TablePage:
     def __init__(
         self,
         ctx: Context,
@@ -64,104 +46,64 @@ class TablePage(QWidget):
         title: str,
         namespaced: bool = True,
     ) -> None:
-        super().__init__()
         self.ctx = ctx
         self.title = title
         self.namespaced = namespaced
         self.rows: list[Row] = []
         self.shown_rows: list[Row] = []
         self.loading = False
-        self.sort: tuple[int, Qt.SortOrder] | None = None  # the header clicked
+        self.sort: tuple[int, bool] | None = None  # the header clicked
         self.error = ""
         self.info = (
             ""  # a note that is not an error, while the page waits for something
         )
 
-        self.namespaces = QComboBox()
-        self.namespaces.setProperty("variant", "filter")
-        self.namespaces.setMinimumSize(170, 38)
+        components = self.components
+        self.widget = components.widget(shown=self.shown, hidden=self.hidden)
+        self.namespaces = components.filter_select()
         self.namespaces.currentIndexChanged.connect(self.show_rows)
-        self.search = QLineEdit()
-        self.search.setObjectName("searchInput")
-        self.search.setMinimumSize(240, 38)
-        self.search.setMaximumWidth(300)
-        self.search.setPlaceholderText(
-            QCoreApplication.translate("TablePage", "Search all columns...")
+        self.search = components.search_box(
+            translate("TablePage", "Search all columns...")
         )
-        self.search.setClearButtonEnabled(True)
         self.search.textChanged.connect(self.show_rows)
 
-        self.summary = QLabel()
-        self.summary.setObjectName("summaryLabel")
-        self.details = QPushButton(QCoreApplication.translate("TablePage", "Details"))
-        self.details.setProperty("variant", "secondary")
-        self.details.clicked.connect(self.show_details)
-
-        self.table = QTableWidget(0, len(headers))
-        self.table.setProperty("variant", "data")
-        self.table.setHorizontalHeaderLabels([text.upper() for text in headers])
-        self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
-        self.table.verticalHeader().setVisible(False)
-        self.table.verticalHeader().setDefaultSectionSize(ROW_HEIGHT)
-        self.table.setShowGrid(False)  # the rows draw their own divider
-        header = self.table.horizontalHeader()
-        header.setStretchLastSection(True)
-        header.setSectionsClickable(True)
-        header.sectionClicked.connect(self.sort_by)
-        header.setDefaultAlignment(
-            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter
+        self.summary = components.label(variant="summary")
+        self.details = components.button(
+            translate("TablePage", "Details"),
+            on_click=self.show_details,
         )
-        for column, width in enumerate(widths):
-            self.table.setColumnWidth(column, width)
-        self.table.setItemDelegate(BadgeDelegate(self.table))
+
+        self.table = components.data_table([text.upper() for text in headers], widths)
+        self.sorter = components.header_sorter(self.table, self.ordered)
         self.table.itemSelectionChanged.connect(self.show_buttons)
-        self.table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.table.customContextMenuRequested.connect(self.show_menu)
+        components.on_context_menu(self.table, self.show_menu)
 
-        self.notice = QLabel()
-        self.notice.setProperty("variant", "muted")
-        self.notice.setWordWrap(True)
-        self.footer = QLabel()
-        self.footer.setProperty("variant", "muted")
-        note = QLabel(
-            QCoreApplication.translate("TablePage", "Data fetched from the cluster API")
+        self.notice = components.label(variant="muted", wrap=True)
+        self.footer = components.label(variant="muted")
+        note = components.muted_label(
+            translate("TablePage", "Data fetched from the cluster API")
         )
-        note.setProperty("variant", "muted")
 
-        filters = QHBoxLayout()
-        filters.setSpacing(12)
-        self.filter_label = QLabel(
-            QCoreApplication.translate("TablePage", "Namespace").upper()
+        self.filter_label = components.label(
+            translate("TablePage", "Namespace").upper(), "filter"
         )
-        self.filter_label.setObjectName("filterLabel")
-        filters.addWidget(self.filter_label)
-        filters.addWidget(self.namespaces)
-        filters.addWidget(self.search)
-        filters.addStretch(1)
         self.filter_label.setVisible(namespaced)
         self.namespaces.setVisible(namespaced)
-        self.action_row = QHBoxLayout()
-        self.action_row.addWidget(self.summary)
-        self.action_row.addStretch(1)
-        self.action_row.addWidget(self.details)
-        footer = QHBoxLayout()
-        footer.addWidget(self.footer)
-        footer.addStretch(1)
-        footer.addWidget(note)
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(32, 24, 32, 22)
-        layout.setSpacing(14)
-        layout.addLayout(filters)
-        layout.addLayout(self.action_row)
-        layout.addWidget(self.notice)
-        layout.addWidget(self.table, 1)
-        layout.addLayout(footer)
+        self.action_row = components.row(self.summary, None, self.details, spacing=6)
+        components.page(
+            self.widget,
+            filters=components.row(
+                self.filter_label, self.namespaces, self.search, None
+            ),
+            actions=self.action_row,
+            notice=self.notice,
+            body=self.table,
+            footer=components.row(self.footer, None, note),
+        )
 
-        self.timer = QTimer(self)
-        self.timer.setInterval(POLL_SECONDS * 1000)
-        self.timer.timeout.connect(lambda: self.load())
+        self.timer = components.timer(
+            POLL_SECONDS * 1000, lambda: self.load(), self.widget
+        )
         ctx.events.on(CONTEXT_CHANGED, lambda **_: self.load())
         ctx.on_unload(self.timer.stop)
 
@@ -175,15 +117,13 @@ class TablePage(QWidget):
     def refresh_buttons(self) -> None:
         """The selection or the rows changed: enable the buttons it added."""
 
-    def extend_menu(self, menu: QMenu, row: Row) -> None:
+    def extend_menu(self, menu: Any, row: Row) -> None:
         """The menu of a row (right click) has the Details; add what else the
         page can do with it."""
 
-    def add_button(self, text: str, handler: Callable[[], None]) -> QPushButton:
+    def add_button(self, text: str, handler: Callable[[], None]) -> Any:
         """Put a button of an action in the summary row, before the Details."""
-        button = QPushButton(text)
-        button.setProperty("variant", "secondary")
-        button.clicked.connect(handler)
+        button = self.components.button(text, on_click=handler)
         self.action_row.insertWidget(self.action_row.count() - 1, button)
         return button
 
@@ -194,9 +134,8 @@ class TablePage(QWidget):
         self.load()
         self.timer.start()
 
-    def hideEvent(self, event) -> None:
+    def hidden(self) -> None:
         self.timer.stop()
-        super().hideEvent(event)
 
     # reading
 
@@ -222,7 +161,7 @@ class TablePage(QWidget):
         self.error = ""
         if rows is None:
             self.rows = []
-            self.error = QCoreApplication.translate(
+            self.error = translate(
                 "TablePage", "The cluster does not serve this resource."
             )
         else:
@@ -232,9 +171,9 @@ class TablePage(QWidget):
 
     def load_failed(self, message: str) -> None:
         self.loading = False
-        self.error = QCoreApplication.translate(
-            "TablePage", "Could not read the resources: {0}"
-        ).format(first_line(message))
+        self.error = translate("TablePage", "Could not read the resources: {0}").format(
+            first_line(message)
+        )
         self.show_rows()
 
     # showing
@@ -243,9 +182,7 @@ class TablePage(QWidget):
         chosen = self.namespaces.currentData()
         self.namespaces.blockSignals(True)
         self.namespaces.clear()
-        self.namespaces.addItem(
-            QCoreApplication.translate("TablePage", "All namespaces"), ALL
-        )
+        self.namespaces.addItem(translate("TablePage", "All namespaces"), ALL)
         for namespace in sorted({row.namespace for row in self.rows}):
             self.namespaces.addItem(namespace, namespace)
         index = self.namespaces.findData(chosen)
@@ -262,29 +199,26 @@ class TablePage(QWidget):
             and (not needle or any(needle in text.casefold() for text in row.cells))
         ]
         if self.sort is not None:
-            column, order = self.sort
+            column, descending = self.sort
             rows.sort(
                 key=lambda row: natural_key(
                     row.cells[column] if column < len(row.cells) else ""
                 ),
-                reverse=order == Qt.SortOrder.DescendingOrder,
+                reverse=descending,
             )
         return rows
 
-    def sort_by(self, column: int) -> None:
-        """A click on a header: sort by that column, and again to reverse."""
-        if self.sort is not None and self.sort[0] == column:
-            flipped = self.sort[1] == Qt.SortOrder.AscendingOrder
-            order = (
-                Qt.SortOrder.DescendingOrder if flipped else Qt.SortOrder.AscendingOrder
-            )
-        else:
-            order = Qt.SortOrder.AscendingOrder
-        self.sort = (column, order)
-        header = self.table.horizontalHeader()
-        header.setSortIndicatorShown(True)
-        header.setSortIndicator(column, order)
+    def ordered(self, column: int, descending: bool) -> None:
+        """A click on a header: the rows in that order."""
+        self.sort = (column, descending)
         self.show_rows()
+
+    @property
+    def components(self) -> Components:
+        """The elements of the app; a page is only built in a window."""
+        ui = self.ctx.ui
+        assert ui is not None
+        return ui.components
 
     def selected(self) -> Row | None:
         rows = self.table.selectionModel().selectedRows()
@@ -301,22 +235,20 @@ class TablePage(QWidget):
         self.notice.setText(self.error or self.info)
         self.notice.setVisible(bool(self.error or self.info))
         self.summary.setText(
-            QCoreApplication.translate("TablePage", "{0} of {1} resources").format(
+            translate("TablePage", "{0} of {1} resources").format(
                 len(rows), len(self.rows)
             )
         )
         if self.namespaced:
             namespaces = len({row.namespace for row in self.rows})
             self.footer.setText(
-                QCoreApplication.translate(
-                    "TablePage", "{0} resources in {1} namespaces"
-                ).format(len(self.rows), namespaces)
+                translate("TablePage", "{0} resources in {1} namespaces").format(
+                    len(self.rows), namespaces
+                )
             )
         else:
             self.footer.setText(
-                QCoreApplication.translate("TablePage", "{0} resources").format(
-                    len(self.rows)
-                )
+                translate("TablePage", "{0} resources").format(len(self.rows))
             )
         self.table.setRowCount(len(rows))
         for index, row in enumerate(rows):
@@ -328,11 +260,12 @@ class TablePage(QWidget):
 
     def fill_row(self, index: int, row: Row) -> None:
         for column, text in enumerate(row.cells):
-            item = QTableWidgetItem(text)
-            item.setForeground(QColor(self.themed(TEXT_COLOR)))
+            item = self.components.table_item(text)
             if column in row.badges:
                 color, fill = row.badges[column]
-                item.setData(BADGE_ROLE, (self.themed(color), self.themed(fill)))
+                self.components.set_badge_colors(
+                    item, self.themed(color), self.themed(fill)
+                )
             if column in row.tips:
                 item.setToolTip(row.tips[column])
             self.table.setItem(index, column, item)
@@ -348,21 +281,16 @@ class TablePage(QWidget):
             return
         self.ctx.ui.show_json(f"{self.title} {row.name}", row.document)
 
-    def show_menu(self, position: QPoint) -> None:
+    def show_menu(self, x: int, y: int) -> None:
         """The menu of the row under the pointer, which is selected first."""
-        index = self.table.rowAt(position.y())
+        index = self.table.rowAt(y)
         if index < 0 or index >= len(self.shown_rows):
             return
         self.table.selectRow(index)
         row = self.shown_rows[index]
-        menu = QMenu(self)
+        menu = self.components.menu(self.widget)
         if row.document is not None:
-            menu.addAction(
-                QCoreApplication.translate("TablePage", "Details"), self.show_details
-            )
+            menu.addAction(translate("TablePage", "Details"), self.show_details)
         self.extend_menu(menu, row)
         if not menu.isEmpty():
-            self.open_menu(menu, self.table.viewport().mapToGlobal(position))
-
-    def open_menu(self, menu: QMenu, position: QPoint) -> None:
-        menu.exec(position)
+            self.components.show_menu(menu, self.table, x, y)

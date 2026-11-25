@@ -1,12 +1,9 @@
 from collections.abc import Callable
-from typing import cast
 
+from kubescope.extensions import testing
 from kubescope.sdk import WRITE_MODE_CHANGED
 from kubescope.sdk.errors import ClusterError
-from PySide6.QtCore import QPoint
-from PySide6.QtWidgets import QMessageBox, QTableWidgetItem
 
-from kubescope.custom_resources.badge import BADGE_ROLE
 from kubescope.custom_resources.crd import Definition
 from kubescope.custom_resources.external_secrets_page import ExternalSecretsPage
 
@@ -45,8 +42,8 @@ def answer(page, monkeypatch, yes=True):
     return asked
 
 
-def cell(page, row, column) -> QTableWidgetItem:
-    return cast(QTableWidgetItem, page.table.item(row, column))
+def cell(page, row, column):
+    return page.table.item(row, column)
 
 
 def names(page):
@@ -77,10 +74,10 @@ def test_it_lists_every_externalsecret_with_how_its_sync_went(ctx, item) -> None
     assert cell(page, 1, 2).toolTip() == "m"
     assert cell(page, 1, 3).text() == "SecretSyncedError"
     assert cell(page, 0, 5).text() == "1h"
-    assert cell(page, 0, 2).data(BADGE_ROLE) == ("#176b58", "#e5f4eb")
-    assert cell(page, 1, 2).data(BADGE_ROLE) == ("#a33d45", "#fce9ea")
-    assert cell(page, 2, 2).data(BADGE_ROLE) == ("#505963", "#eff1f3")
-    assert cell(page, 3, 2).data(BADGE_ROLE) == ("#985415", "#fff2de")
+    assert testing.badge_of(cell(page, 0, 2)) == ("#176b58", "#e5f4eb")
+    assert testing.badge_of(cell(page, 1, 2)) == ("#a33d45", "#fce9ea")
+    assert testing.badge_of(cell(page, 2, 2)) == ("#505963", "#eff1f3")
+    assert testing.badge_of(cell(page, 3, 2)) == ("#985415", "#fff2de")
     assert page.rows[0].document == ctx.cluster.documents["externalsecrets"]["items"][0]
 
 
@@ -116,7 +113,7 @@ def test_the_buttons_follow_the_selection_and_the_write_mode(ctx, item) -> None:
     ctx.events.fire(WRITE_MODE_CHANGED, write_mode=False)
     assert not page.resync_button.isEnabled() and not page.resync_all.isEnabled()
     assert page.resync_all.toolTip() == "Turn on the write mode to resync."
-    page.show()
+    page.widget.show()
     assert page.resync_button.isHidden() and page.resync_all.isHidden()  # out of sight
 
     ctx.app.write_mode = True
@@ -238,36 +235,34 @@ def test_the_context_menu_offers_the_resync_of_the_row_in_the_write_mode(
     ctx, item, monkeypatch
 ) -> None:
     page = make(ctx, item, "a")
-    page.resize(900, 500)
-    page.show()
+    page.widget.resize(900, 500)
+    page.widget.show()
     shown: list[list[str]] = []
     monkeypatch.setattr(
-        page,
-        "open_menu",
-        lambda menu, _at: shown.append([a.text() for a in menu.actions()]),
+        page.components,
+        "show_menu",
+        lambda menu, _table, _x, _y: shown.append([a.text() for a in menu.actions()]),
     )
-    on_row = QPoint(10, page.table.rowViewportPosition(0) + 5)
+    on_row = (10, page.table.rowViewportPosition(0) + 5)
 
-    page.show_menu(on_row)  # the write mode is on
+    page.show_menu(*on_row)  # the write mode is on
     ctx.app.write_mode = False
-    page.show_menu(on_row)  # without it: the Details only
+    page.show_menu(*on_row)  # without it: the Details only
 
     assert shown == [["Details", "Resync"], ["Details"]]
 
 
-def test_the_confirmation_is_a_yes_no_question(ctx, item, monkeypatch) -> None:
+def test_the_confirmation_is_asked_of_the_app(ctx, item, monkeypatch) -> None:
     page = make(ctx, item, "a")
     seen: list = []
     monkeypatch.setattr(
-        QMessageBox,
-        "exec",
-        lambda box: seen.append(box.text()) or QMessageBox.StandardButton.Yes,
+        page.components,
+        "confirm",
+        lambda _parent, title, text, ok: seen.append((title, text, ok)) or True,
     )
 
     assert page.confirm("Sure?") is True
-    assert seen == ["Sure?"]
-    ctx.ui = None
-    assert page.confirm("Sure?") is True
+    assert seen == [("Resync", "Sure?", "Resync")]
 
 
 def test_nothing_is_waited_for_when_every_resync_failed(ctx, item, monkeypatch) -> None:
@@ -316,14 +311,12 @@ def test_after_a_resync_it_waits_for_the_operator_and_reads_until_it_shows(
 
 
 def test_a_look_is_scheduled_on_the_page_itself(ctx, item, monkeypatch) -> None:
-    from PySide6.QtCore import QTimer
-
     page = make(ctx, item, "a")
     seen: list[tuple] = []
-    monkeypatch.setattr(QTimer, "singleShot", lambda *args: seen.append(args))
+    monkeypatch.setattr(page.components, "after", lambda *args: seen.append(args))
 
     def call() -> None: ...
 
     page.after(500, call)
 
-    assert seen == [(500, page, call)]
+    assert seen == [(500, page.widget, call)]

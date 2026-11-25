@@ -2,11 +2,10 @@
 the one selected and a resync of all the ones shown."""
 
 from collections.abc import Callable
+from typing import Any
 
-from kubescope.sdk import WRITE_MODE_CHANGED, Context
+from kubescope.sdk import WRITE_MODE_CHANGED, Context, translate
 from kubescope.sdk.errors import first_line
-from PySide6.QtCore import QCoreApplication, QTimer
-from PySide6.QtWidgets import QMenu, QMessageBox
 
 from kubescope.custom_resources import reader
 from kubescope.custom_resources.crd import Definition
@@ -36,19 +35,23 @@ FOLLOW_UP = (1000, 4000, 10000)
 class ExternalSecretsPage(TablePage):
     def __init__(self, ctx: Context, definition: Definition) -> None:
         headers = [
-            QCoreApplication.translate("ExternalSecretsPage", "Name"),
-            QCoreApplication.translate("ExternalSecretsPage", "Store"),
-            QCoreApplication.translate("ExternalSecretsPage", "Status"),
-            QCoreApplication.translate("ExternalSecretsPage", "Reason"),
-            QCoreApplication.translate("ExternalSecretsPage", "Last sync"),
-            QCoreApplication.translate("ExternalSecretsPage", "Refresh"),
+            translate("ExternalSecretsPage", "Name"),
+            translate("ExternalSecretsPage", "Store"),
+            translate("ExternalSecretsPage", "Status"),
+            translate("ExternalSecretsPage", "Reason"),
+            translate("ExternalSecretsPage", "Last sync"),
+            translate("ExternalSecretsPage", "Refresh"),
         ]
         super().__init__(ctx, headers, WIDTHS, definition.kind)
         self.definition = definition
         self.resync_button = self.add_button(
-            self.tr("Resync"), self.ask_resync_selected
+            translate("ExternalSecretsPage", "Resync"),
+            self.ask_resync_selected,
         )
-        self.resync_all = self.add_button(self.tr("Resync All"), self.ask_resync_all)
+        self.resync_all = self.add_button(
+            translate("ExternalSecretsPage", "Resync All"),
+            self.ask_resync_all,
+        )
         ctx.events.on(WRITE_MODE_CHANGED, lambda **_: self.show_buttons())
 
     # reading
@@ -80,7 +83,7 @@ class ExternalSecretsPage(TablePage):
             f"{secret.store_kind}/{secret.store}" if secret.store else "",
             self.state_label(secret),
             secret.reason,
-            last_sync_age(secret) or self.tr("never"),
+            last_sync_age(secret) or translate("ExternalSecretsPage", "never"),
             format_interval(secret.refresh_interval),
         )
         return Row(
@@ -95,10 +98,10 @@ class ExternalSecretsPage(TablePage):
 
     def state_label(self, secret: ExternalSecret) -> str:
         return {
-            SYNCED: self.tr("Synced"),
-            FAILING: self.tr("Error"),
-            WARNING: self.tr("Deleted"),
-        }.get(secret.state, self.tr("Unknown"))
+            SYNCED: translate("ExternalSecretsPage", "Synced"),
+            FAILING: translate("ExternalSecretsPage", "Error"),
+            WARNING: translate("ExternalSecretsPage", "Deleted"),
+        }.get(secret.state, translate("ExternalSecretsPage", "Unknown"))
 
     # the buttons
 
@@ -107,7 +110,11 @@ class ExternalSecretsPage(TablePage):
 
     def refresh_buttons(self) -> None:
         writable = self.writable()
-        tip = "" if writable else self.tr("Turn on the write mode to resync.")
+        tip = (
+            ""
+            if writable
+            else translate("ExternalSecretsPage", "Turn on the write mode to resync.")
+        )
         self.resync_button.setEnabled(writable and self.selected() is not None)
         self.resync_all.setEnabled(writable and bool(self.shown_rows))
         self.resync_button.setToolTip(tip)
@@ -116,23 +123,22 @@ class ExternalSecretsPage(TablePage):
         self.resync_button.setVisible(writable)
         self.resync_all.setVisible(writable)
 
-    def extend_menu(self, menu: QMenu, row: Row) -> None:
+    def extend_menu(self, menu: Any, row: Row) -> None:
         if self.writable():
-            menu.addAction(self.tr("Resync"), self.ask_resync_selected)
+            menu.addAction(
+                translate("ExternalSecretsPage", "Resync"),
+                self.ask_resync_selected,
+            )
 
     # resync
 
     def confirm(self, text: str) -> bool:
-        box = QMessageBox(self)
-        box.setIcon(QMessageBox.Icon.Question)
-        box.setWindowTitle(self.tr("Resync"))
-        box.setText(text)
-        box.setStandardButtons(
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        return self.components.confirm(
+            self.widget,
+            translate("ExternalSecretsPage", "Resync"),
+            text,
+            translate("ExternalSecretsPage", "Resync"),
         )
-        if self.ctx.ui is not None:
-            self.ctx.ui.style_box(box)
-        return box.exec() == QMessageBox.StandardButton.Yes
 
     def secrets_of(self, rows: list[Row]) -> list[ExternalSecret]:
         return [row.payload for row in rows]
@@ -141,14 +147,22 @@ class ExternalSecretsPage(TablePage):
         row = self.selected()
         if row is None or not self.writable():
             return
-        if self.confirm(self.tr("Resync {0} in {1}?").format(row.name, row.namespace)):
+        if self.confirm(
+            translate("ExternalSecretsPage", "Resync {0} in {1}?").format(
+                row.name, row.namespace
+            )
+        ):
             self.run(self.secrets_of([row]))
 
     def ask_resync_all(self) -> None:
         rows = self.shown_rows
         if not rows or not self.writable():
             return
-        if self.confirm(self.tr("Resync the {0} resources shown?").format(len(rows))):
+        if self.confirm(
+            translate("ExternalSecretsPage", "Resync the {0} resources shown?").format(
+                len(rows)
+            )
+        ):
             self.run(self.secrets_of(rows))
 
     def resync_these(
@@ -180,7 +194,9 @@ class ExternalSecretsPage(TablePage):
             ]
             self.tell(
                 "warning",
-                self.tr("{0} of {1} could not be resynced:").format(len(failed), total)
+                translate(
+                    "ExternalSecretsPage", "{0} of {1} could not be resynced:"
+                ).format(len(failed), total)
                 + "\n"
                 + "\n".join(lines),
             )
@@ -191,9 +207,9 @@ class ExternalSecretsPage(TablePage):
     def follow_up(self, count: int) -> None:
         """The operator syncs a moment after it is asked: say so, and read the
         cluster again a few times until the status shows it."""
-        self.info = self.tr("Resync asked for {0}; waiting for the operator...").format(
-            count
-        )
+        self.info = translate(
+            "ExternalSecretsPage", "Resync asked for {0}; waiting for the operator..."
+        ).format(count)
         self.show_rows()
         for number, delay in enumerate(FOLLOW_UP):
             last = number == len(FOLLOW_UP) - 1
@@ -201,7 +217,7 @@ class ExternalSecretsPage(TablePage):
 
     def after(self, delay: int, callback: Callable[[], None]) -> None:
         """Call `callback` in `delay` ms, unless the page is gone by then."""
-        QTimer.singleShot(delay, self, callback)
+        self.components.after(delay, self.widget, callback)
 
     def read_again(self, last: bool) -> None:
         if last:
@@ -214,4 +230,6 @@ class ExternalSecretsPage(TablePage):
 
     def tell(self, icon: str, text: str) -> None:
         if self.ctx.ui is not None:
-            self.ctx.ui.show_message(icon, self.tr("Resync"), text)
+            self.ctx.ui.show_message(
+                icon, translate("ExternalSecretsPage", "Resync"), text
+            )

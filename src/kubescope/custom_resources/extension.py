@@ -2,9 +2,9 @@
 of the cluster and, for each API group, a page for each of its kinds (the way
 Lens lists them), built again when the cluster or its definitions change."""
 
-from kubescope.sdk import CONTEXT_CHANGED, Context, PageSpec
-from PySide6.QtCore import QCoreApplication, QTimer
-from PySide6.QtWidgets import QWidget
+from typing import Any
+
+from kubescope.sdk import CONTEXT_CHANGED, Context, PageSpec, translate
 
 from kubescope.custom_resources import reader
 from kubescope.custom_resources.crd import Definition
@@ -13,6 +13,7 @@ from kubescope.custom_resources.resources_page import (
     DefinitionsPage,
     ResourcesPage,
 )
+from kubescope.custom_resources.table_page import TablePage
 
 KEY = "custom-resources"  # what `set_pages` calls the pages of the cluster
 RETRY_MS = 3000  # to look again while there is no context, or the read failed
@@ -23,14 +24,25 @@ class Menu:
     def __init__(self, ctx: Context) -> None:
         self.ctx = ctx
         self.definitions: list[Definition] | None = None  # None: not read yet
-        self.pages: dict[tuple[str, str], QWidget] = {}
+        self.pages: dict[tuple[str, str], Any] = {}
         self.attempts = 0  # looks in a row that found no context or failed
         # The app may not have a context yet when the extension starts, and tells
         # nothing when it gets one: look again until there is one.
-        self.timer = QTimer()
-        self.timer.setSingleShot(True)
-        self.timer.timeout.connect(self.retry)
-        ctx.on_unload(self.timer.stop)
+        self._timer: Any = None
+        ctx.on_unload(self.stop_timer)
+
+    @property
+    def timer(self) -> Any:
+        """The timer that looks again, made when it is first needed."""
+        if self._timer is None:
+            ui = self.ctx.ui
+            assert ui is not None  # nothing is looked for without a window
+            self._timer = ui.components.timer(RETRY_MS, self.retry, single_shot=True)
+        return self._timer
+
+    def stop_timer(self) -> None:
+        if self._timer is not None:
+            self._timer.stop()
 
     def has_context(self) -> bool:
         return self.ctx.current_context is not None
@@ -38,7 +50,7 @@ class Menu:
     def load(self) -> None:
         """Read the definitions of the context and show them in the menu."""
         self.attempts = 0
-        self.timer.stop()
+        self.stop_timer()
         self.read()
 
     def retry(self) -> None:
@@ -73,7 +85,7 @@ class Menu:
     def look_again(self) -> None:
         if self.attempts < MAX_RETRIES:
             self.attempts += 1
-            self.timer.start(RETRY_MS)
+            self.timer.start()
 
     def answered(self, context: str, definitions: list[Definition]) -> None:
         if context == self.ctx.current_context:  # not one of a context left
@@ -90,16 +102,14 @@ class Menu:
         self.ctx.set_pages(KEY, self.specs(definitions))
 
     def specs(self, definitions: list[Definition]) -> list[PageSpec]:
-        section = QCoreApplication.translate(
-            "CustomResourcesExtension", "Custom Resources"
-        )
+        section = translate("CustomResourcesExtension", "Custom Resources")
         specs = [
             PageSpec(
                 section,
-                QCoreApplication.translate("CustomResourcesExtension", "Definitions"),
+                translate("CustomResourcesExtension", "Definitions"),
                 "CRDs",
                 self.make_definitions,
-                subtitle=QCoreApplication.translate(
+                subtitle=translate(
                     "CustomResourcesExtension",
                     "The custom resource definitions of the cluster",
                 ),
@@ -121,24 +131,24 @@ class Menu:
             )
         return specs
 
-    def make_definitions(self) -> QWidget:
+    def make_definitions(self) -> Any:
         page = DefinitionsPage(self.ctx, self.update)
         self.pages[("", "")] = page
-        return page
+        return page.widget
 
     def refresh_definitions(self) -> None:
         page = self.pages.get(("", ""))
         if isinstance(page, DefinitionsPage):
             page.reload()
 
-    def make(self, definition: Definition) -> QWidget:
-        page: QWidget
+    def make(self, definition: Definition) -> Any:
+        page: TablePage
         if reader.is_external_secret(definition):
             page = ExternalSecretsPage(self.ctx, definition)
         else:
             page = ResourcesPage(self.ctx, definition)
         self.pages[definition.key] = page
-        return page
+        return page.widget
 
     def refresh(self, definition: Definition) -> None:
         page = self.pages.get(definition.key)

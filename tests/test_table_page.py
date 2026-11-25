@@ -1,13 +1,8 @@
-from typing import cast
-
 import pytest
+from kubescope.extensions import testing
 from kubescope.sdk import CONTEXT_CHANGED
 from kubescope.sdk.errors import ClusterError
-from PySide6.QtCore import QPoint
-from PySide6.QtGui import QHideEvent
-from PySide6.QtWidgets import QMenu, QTableWidgetItem
 
-from kubescope.custom_resources.badge import BADGE_ROLE
 from kubescope.custom_resources.table_page import Row, TablePage
 
 
@@ -34,8 +29,8 @@ def row(name, namespace="ns", **fields):
     return Row(namespace, name, (namespace, name, "Ok"), {"name": name}, **fields)
 
 
-def cell(page, index, column) -> QTableWidgetItem:
-    return cast(QTableWidgetItem, page.table.item(index, column))
+def cell(page, index, column):
+    return page.table.item(index, column)
 
 
 def names(page):
@@ -74,9 +69,9 @@ def test_badges_and_tips_go_to_the_cells(ctx) -> None:
 
     page.load()
 
-    assert cell(page, 0, 2).data(BADGE_ROLE) == ("#176b58", "#e5f4eb")
+    assert testing.badge_of(cell(page, 0, 2)) == ("#176b58", "#e5f4eb")
     assert cell(page, 0, 2).toolTip() == "why"
-    assert cell(page, 0, 1).data(BADGE_ROLE) is None
+    assert testing.badge_of(cell(page, 0, 1)) is None
 
 
 def test_the_filters_narrow_the_list_and_keep_the_choice(ctx) -> None:
@@ -137,7 +132,7 @@ def test_it_reads_again_on_a_context_and_stops_when_hidden(ctx) -> None:
     ctx.events.fire(CONTEXT_CHANGED, context="dev")
     assert names(page) == ["a"]
 
-    page.hideEvent(QHideEvent())
+    page.hidden()
     assert not page.timer.isActive()
 
 
@@ -217,23 +212,23 @@ def test_the_context_menu_of_a_row_has_the_details_and_selects_the_row(
     ctx, monkeypatch
 ) -> None:
     page = Page(ctx, [row("a"), row("b")])
-    page.resize(900, 500)
-    page.show()
+    page.widget.resize(900, 500)
+    page.widget.show()
     page.load()
     shown: list[tuple[list[str], str]] = []
 
-    def open_menu(menu, _at):
+    def open_menu(menu, _table, _x, _y):
         selected = page.selected()
         assert selected is not None
         shown.append(([a.text() for a in menu.actions()], selected.name))
         menu.actions()[0].trigger()
 
-    monkeypatch.setattr(page, "open_menu", open_menu)
+    monkeypatch.setattr(page.components, "show_menu", open_menu)
     opened: list[str] = []
     ctx.ui.show_json = lambda title, document: opened.append(title)
 
-    page.show_menu(QPoint(10, page.table.rowViewportPosition(1) + 5))
-    page.show_menu(QPoint(10, 5000))  # below the rows: no menu
+    page.show_menu(10, page.table.rowViewportPosition(1) + 5)
+    page.show_menu(10, 5000)  # below the rows: no menu
 
     assert shown == [(["Details"], "b")]
     assert opened == ["Thing b"]
@@ -241,28 +236,15 @@ def test_the_context_menu_of_a_row_has_the_details_and_selects_the_row(
 
 def test_a_row_with_nothing_to_show_has_no_menu(ctx, monkeypatch) -> None:
     page = Page(ctx, [Row("ns", "a", ("ns", "a", "Ok"))])
-    page.resize(900, 500)
-    page.show()
+    page.widget.resize(900, 500)
+    page.widget.show()
     page.load()
     opened: list = []
-    monkeypatch.setattr(page, "open_menu", lambda *_: opened.append(1))
+    monkeypatch.setattr(page.components, "show_menu", lambda *_: opened.append(1))
 
-    page.show_menu(QPoint(10, page.table.rowViewportPosition(0) + 5))
+    page.show_menu(10, page.table.rowViewportPosition(0) + 5)
 
     assert opened == []
-
-
-def test_the_menu_is_opened_where_it_was_asked(ctx) -> None:
-    page = Page(ctx, [])
-    seen: list = []
-
-    class Menu:
-        def exec(self, at):
-            seen.append(at)
-
-    page.open_menu(cast(QMenu, Menu()), QPoint(3, 4))
-
-    assert seen == [QPoint(3, 4)]
 
 
 def test_a_click_on_a_header_sorts_the_list_and_a_second_one_reverses_it(ctx) -> None:
@@ -270,17 +252,17 @@ def test_a_click_on_a_header_sorts_the_list_and_a_second_one_reverses_it(ctx) ->
     page.shown()
     assert names(page) == ["b", "a", "c"]
 
-    page.sort_by(1)
+    page.sorter.clicked(1)
     assert names(page) == ["a", "b", "c"]
     assert page.table.horizontalHeader().sortIndicatorSection() == 1  # type: ignore[union-attr]
 
-    page.sort_by(1)
+    page.sorter.clicked(1)
     assert names(page) == ["c", "b", "a"]
 
-    page.sort_by(2)  # the same phase everywhere: the order it was read in
+    page.sorter.clicked(2)  # the same phase everywhere: the order it was read in
     assert names(page) == ["b", "a", "c"]
 
-    page.sort_by(1)
+    page.sorter.clicked(1)
     page.loaded([row("z"), row("y")])  # read again: the sort stays
     assert names(page) == ["y", "z"]
 
@@ -288,5 +270,5 @@ def test_a_click_on_a_header_sorts_the_list_and_a_second_one_reverses_it(ctx) ->
 def test_a_cell_the_row_does_not_have_sorts_as_empty(ctx) -> None:
     page = Page(ctx, [Row("ns", "short", ("ns",)), row("a")])
     page.shown()
-    page.sort_by(2)
+    page.sorter.clicked(2)
     assert [shown.name for shown in page.shown_rows] == ["a", "short"]
