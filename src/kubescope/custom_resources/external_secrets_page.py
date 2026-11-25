@@ -112,6 +112,9 @@ class ExternalSecretsPage(TablePage):
         self.resync_all.setEnabled(writable and bool(self.shown_rows))
         self.resync_button.setToolTip(tip)
         self.resync_all.setToolTip(tip)
+        # what changes the cluster is out of sight while the app is read-only
+        self.resync_button.setVisible(writable)
+        self.resync_all.setVisible(writable)
 
     def extend_menu(self, menu: QMenu, row: Row) -> None:
         if self.writable():

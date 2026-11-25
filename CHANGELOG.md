@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-24
+
+### Fixed
+
+- **Resync** and **Resync All** are out of sight while the app is read-only, and come back with the write mode by @danilogco
+
 ### Added
 
 - A click on the header of a list sorts it, and a second one reverses it, by what the cells mean (ages, numbers, versions), as the lists of the app do; it needs the SDK 1.8 by @danilogco
@@ -24,5 +30,6 @@ All notable changes to this project are documented here. The format follows
 - The menu looks for the definitions again, every few seconds, while the app has no context yet or a read failed, so it is not left empty after a restart by @danilogco
 - The menu is built again when the context or the definitions change, and a list reads again every 30 seconds while it is open by @danilogco
 
-[Unreleased]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/releases/tag/v1.0.0

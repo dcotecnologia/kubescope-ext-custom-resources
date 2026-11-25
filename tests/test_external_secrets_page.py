@@ -116,6 +116,12 @@ def test_the_buttons_follow_the_selection_and_the_write_mode(ctx, item) -> None:
     ctx.events.fire(WRITE_MODE_CHANGED, write_mode=False)
     assert not page.resync_button.isEnabled() and not page.resync_all.isEnabled()
     assert page.resync_all.toolTip() == "Turn on the write mode to resync."
+    page.show()
+    assert page.resync_button.isHidden() and page.resync_all.isHidden()  # out of sight
+
+    ctx.app.write_mode = True
+    ctx.events.fire(WRITE_MODE_CHANGED, write_mode=True)
+    assert not page.resync_button.isHidden() and not page.resync_all.isHidden()
 
 
 def test_resync_asks_first_and_patches_the_one_selected(ctx, item, monkeypatch) -> None:
