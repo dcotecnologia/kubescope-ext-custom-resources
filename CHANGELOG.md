@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-25
+
+### Fixed
+
+- The badges of the table are as wide as their column, so they line up, and a text that does not fit is cut with an ellipsis by @danilogco
+
 ## [1.1.0] - 2026-11-24
 
 ### Fixed
@@ -30,6 +36,7 @@ All notable changes to this project are documented here. The format follows
 - The menu looks for the definitions again, every few seconds, while the app has no context yet or a read failed, so it is not left empty after a restart by @danilogco
 - The menu is built again when the context or the definitions change, and a list reads again every 30 seconds while it is open by @danilogco
 
-[Unreleased]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/releases/tag/v1.0.0
