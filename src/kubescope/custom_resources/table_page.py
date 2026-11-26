@@ -17,6 +17,7 @@ from kubescope.sdk.models import natural_key
 POLL_SECONDS = 30  # how often the page looks again while it is shown
 ALL = ""  # the filter that shows every namespace
 ROW_HEIGHT = 46  # as the rows of the Pods
+ICON_COLOR = "#3220a0"  # the color of the icons of the buttons, as the app has them
 
 
 @dataclass(frozen=True, eq=False)
@@ -70,6 +71,7 @@ class TablePage:
         self.summary = components.label(variant="summary")
         self.details = components.button(
             translate("TablePage", "Details"),
+            icon=self.icon("info"),
             on_click=self.show_details,
         )
 
@@ -121,9 +123,30 @@ class TablePage:
         """The menu of a row (right click) has the Details; add what else the
         page can do with it."""
 
-    def add_button(self, text: str, handler: Callable[[], None]) -> Any:
+    def icon(self, name: str) -> Any:
+        """An icon of the app by name, or none when the app is older and does
+        not have it."""
+        try:
+            return self.components.icon(name, self.themed(ICON_COLOR))
+        except KeyError:
+            return None
+
+    def add_action(
+        self, menu: Any, text: str, handler: Callable[[], None], icon: str = ""
+    ) -> None:
+        """Add an entry to the menu of a row, with the icon of the app named
+        `icon` when there is one."""
+        picture = self.icon(icon) if icon else None
+        if picture is None:
+            menu.addAction(text, handler)
+        else:
+            menu.addAction(picture, text, handler)
+
+    def add_button(self, text: str, handler: Callable[[], None], icon: str = "") -> Any:
         """Put a button of an action in the summary row, before the Details."""
-        button = self.components.button(text, on_click=handler)
+        button = self.components.button(
+            text, icon=self.icon(icon) if icon else None, on_click=handler
+        )
         self.action_row.insertWidget(self.action_row.count() - 1, button)
         return button
 
@@ -290,7 +313,9 @@ class TablePage:
         row = self.shown_rows[index]
         menu = self.components.menu(self.widget)
         if row.document is not None:
-            menu.addAction(translate("TablePage", "Details"), self.show_details)
+            self.add_action(
+                menu, translate("TablePage", "Details"), self.show_details, "info"
+            )
         self.extend_menu(menu, row)
         if not menu.isEmpty():
             self.components.show_menu(menu, self.table, x, y)

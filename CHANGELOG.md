@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- The **Details**, **Resync** and **Resync All** buttons and the **Details** and **Resync** entries of the menu of a row wear the icons of the app (the new `refresh`, a circular arrow, for the resync); with a KubeScope that does not have an icon they show without it by @danilogco
+
 ## [1.3.0] - 2026-11-25
 
 ### Added

@@ -187,7 +187,13 @@ def test_a_subclass_adds_a_button_before_the_details(ctx) -> None:
     button.click()
 
     assert called == [1]
-    assert page.action_row.indexOf(button) < page.action_row.indexOf(page.details)
+    testing.settle()  # a newer app takes the button into its bar
+    row = page.action_row
+    if row.indexOf(page.details) < 0:  # the buttons are in the bar of the app
+        bar = page.details.parentWidget()
+        assert bar is not None
+        row = bar.layout()
+    assert row.indexOf(button) < row.indexOf(page.details)
 
 
 def test_the_base_page_does_not_know_what_it_lists(ctx) -> None:
@@ -272,3 +278,33 @@ def test_a_cell_the_row_does_not_have_sorts_as_empty(ctx) -> None:
     page.shown()
     page.sorter.clicked(2)
     assert [shown.name for shown in page.shown_rows] == ["a", "short"]
+
+
+def test_the_icons_of_the_buttons_and_of_the_menu_are_the_ones_of_the_app(ctx) -> None:
+    page = Page(ctx, [])
+    assert not page.details.icon().isNull()  # the info icon of the app
+
+    button = page.add_button("Do", lambda: None, "refresh")
+    assert not button.icon().isNull()
+    assert page.add_button("Plain", lambda: None).icon().isNull()  # none asked for
+
+    menu = page.components.menu(page.widget)
+    page.add_action(menu, "With", lambda: None, "refresh")
+    page.add_action(menu, "Without", lambda: None)
+    entries = {action.text(): action for action in menu.actions()}
+    assert not entries["With"].icon().isNull()
+    assert entries["Without"].icon().isNull()
+
+
+def test_an_icon_that_an_older_app_does_not_have_is_left_out(ctx, monkeypatch) -> None:
+    page = Page(ctx, [])
+
+    def missing(*_args, **_options):
+        raise KeyError("refresh")
+
+    monkeypatch.setattr(page.components, "icon", missing)
+    assert page.icon("refresh") is None
+    assert page.add_button("Do", lambda: None, "refresh").icon().isNull()
+    menu = page.components.menu(page.widget)
+    page.add_action(menu, "Do", lambda: None, "refresh")  # the entry is there, bare
+    assert [action.text() for action in menu.actions()] == ["Do"]

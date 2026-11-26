@@ -47,10 +47,12 @@ class ExternalSecretsPage(TablePage):
         self.resync_button = self.add_button(
             translate("ExternalSecretsPage", "Resync"),
             self.ask_resync_selected,
+            "refresh",
         )
         self.resync_all = self.add_button(
             translate("ExternalSecretsPage", "Resync All"),
             self.ask_resync_all,
+            "refresh",
         )
         ctx.events.on(WRITE_MODE_CHANGED, lambda **_: self.show_buttons())
 
@@ -125,9 +127,11 @@ class ExternalSecretsPage(TablePage):
 
     def extend_menu(self, menu: Any, row: Row) -> None:
         if self.writable():
-            menu.addAction(
+            self.add_action(
+                menu,
                 translate("ExternalSecretsPage", "Resync"),
                 self.ask_resync_selected,
+                "refresh",
             )
 
     # resync
