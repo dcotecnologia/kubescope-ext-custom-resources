@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-26
+
 ### Added
 
 - The **Details**, **Resync** and **Resync All** buttons and the **Details** and **Resync** entries of the menu of a row wear the icons of the app (the new `refresh`, a circular arrow, for the resync); with a KubeScope that does not have an icon they show without it by @danilogco
@@ -53,7 +55,8 @@ All notable changes to this project are documented here. The format follows
 - The menu looks for the definitions again, every few seconds, while the app has no context yet or a read failed, so it is not left empty after a restart by @danilogco
 - The menu is built again when the context or the definitions change, and a list reads again every 30 seconds while it is open by @danilogco
 
-[Unreleased]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.1.0...v1.1.1
