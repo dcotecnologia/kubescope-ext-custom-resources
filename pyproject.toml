@@ -1,6 +1,6 @@
 [project]
 name = "kubescope-ext-custom-resources"
-version = "1.2.0"
+version = "1.3.0"
 description = "Custom Resources for KubeScope: browse the CRDs of the cluster by API group, list their resources and, for ExternalSecrets, follow the sync and resync"
 readme = "README.md"
 license = "MIT"
@@ -21,7 +21,7 @@ build-backend = "setuptools.build_meta"
 dev = [
     # only the tests need the app: they run her in its window and lend her its
     # real services
-    "kubescope>=2.9.0",
+    "kubescope>=2.10.0",
     "pre-commit>=4.7.0",
     "pytest>=9.2.0",
     "pytest-cov>=7.1.0",

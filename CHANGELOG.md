@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-25
+
+### Added
+
+- The manifest says the newest KubeScope the extension works with (`max_app`, 3.0.0), so a KubeScope newer than that neither installs nor offers it, and keeps the version made for it by @danilogco
+
 ## [1.2.0] - 2026-11-25
 
 ### Changed
@@ -43,7 +49,8 @@ All notable changes to this project are documented here. The format follows
 - The menu looks for the definitions again, every few seconds, while the app has no context yet or a read failed, so it is not left empty after a restart by @danilogco
 - The menu is built again when the context or the definitions change, and a list reads again every 30 seconds while it is open by @danilogco
 
-[Unreleased]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/dcotecnologia/kubescope-ext-custom-resources/compare/v1.0.0...v1.1.0
